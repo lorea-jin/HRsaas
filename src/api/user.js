@@ -1,6 +1,9 @@
-// import request from "@/utils/request";
+import request from '@/utils/request'
 
-export function login(data) {}
+// 登陆的axios请求
+export function login(data) {
+  return request.post('/sys/login', data)
+}
 
 export function getInfo(token) {}
 
