@@ -11,18 +11,9 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import * as directives from '@/directives' // 把自定义指令全部引入
 import '@/icons' // icon
 import '@/permission' // permission control
-
-/**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online ! ! !
- */
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
@@ -30,6 +21,14 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+// 批量注册自定义指令
+// console.log(directives)
+// 对象转为数组，拿到数组的每一个value作为指令名，value名对应的对象作为内容对象
+Object.keys(directives).forEach(value => {
+  // console.log(directives[value]) // 每个指令对象的 内容
+  Vue.directive(value, directives[value])
+})
 
 new Vue({
   el: '#app',
