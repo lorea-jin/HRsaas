@@ -1,15 +1,15 @@
 import Layout from '@/layout'
 
 export default {
-  path: '/permission',
-  name: 'permission',
+  path: '/employees',
+  name: 'employees',
   component: Layout, // 子模块都是layout的子组件，为了用到layout的布局
   children: [
     {
       path: '', // 这里的二级路由什么都不写代表默认用上面的path
-      component: () => import('@/views/permission'),
+      component: () => import('@/views/employees'),
       meta: {
-        title: '权限设置',
+        title: '员工',
         icon: 'people'
       }
     }
