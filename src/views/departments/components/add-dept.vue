@@ -12,6 +12,7 @@
         <el-form-item label="部门负责人" prop="manager">
           <el-select
             v-model="Editform.manager"
+            v-loading="loading"
             style="width:40%"
             placeholder="请选择"
             @focus="handleEmployee()"
@@ -166,7 +167,8 @@ export default {
         ]
       },
       // 下拉框的员工名字
-      userinfo: ''
+      userinfo: '',
+      loading: false
     }
   },
   computed: {
@@ -177,8 +179,10 @@ export default {
   },
   methods: {
     async handleEmployee() {
+      this.loading = true
       const re = await getEmployeeSimple()
       this.userinfo = re
+      this.loading = false
     },
 
     // 确认按钮

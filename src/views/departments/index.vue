@@ -1,8 +1,8 @@
 <template>
-  <div class="dashboard-container">
+  <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <el-card class="tree-card">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
           <el-tab-pane label="组织结构" name="first" class="contentbox">
             <!-- 标题 -->
             <TreeTools :tree-data="company" :is-root="true" @getDialog="getDialog($event)" />
@@ -50,6 +50,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       activeName: 'first',
       company: { name: '', manager: '负责人', id: '' },
       departmentsSaver: [],
@@ -63,9 +64,11 @@ export default {
   },
   methods: {
     async getDepartments() {
+      this.loading = true
       const re = await getDepartmentsApi()
       this.departmentsSaver = this.getArrayTree(re.depts, '')
       this.company.name = re.companyName
+      this.loading = false
     },
 
     // 把数据转化为树形数组
