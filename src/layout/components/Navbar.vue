@@ -6,13 +6,17 @@
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb class="breadcrumb-container" />
+    <div class="app-breadcrumb">
+      江苏科技股份有限公司
+      <span class="breadBtn">体验版</span>
+    </div>
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <!-- 用户名字+头像 -->
         <div class="avatar-wrapper">
-          <img v-imagerror="defaultImg" :src="photo" class="user-avatar" >
+          <img v-imagerror="defaultImg" :src="photo" class="user-avatar" />
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
@@ -66,6 +70,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-breadcrumb {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 50px;
+  margin-left: 10px;
+  color: #ffffff;
+  cursor: text;
+  .breadBtn {
+    background: #84a9fe;
+    font-size: 14px;
+    padding: 0 10px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    margin-left: 15px;
+  }
+}
 .navbar {
   height: 50px;
   overflow: hidden;

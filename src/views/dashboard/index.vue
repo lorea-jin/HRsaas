@@ -8,12 +8,14 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {}
+  },
   name: 'Dashboard',
   computed: {
-    ...mapGetters([
-      'name'
-    ])
-  }
+    ...mapGetters(['name'])
+  },
+  methods: {}
 }
 </script>
 
