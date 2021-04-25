@@ -61,8 +61,9 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     logout() {
-      this.$store.commit('user/removeStateToken')
-      this.$store.commit('user/deleteUserInfo')
+      // this.$store.commit('user/removeStateToken')
+      // this.$store.commit('user/deleteUserInfo')
+      this.$store.dispatch('user/logout')
       this.$router.push(`/login`)
     }
   }

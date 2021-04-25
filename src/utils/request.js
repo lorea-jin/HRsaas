@@ -17,8 +17,9 @@ service.interceptors.request.use(
     if (store.getters.token) {
       //  有token的情况下判断是否超时 -如果true则超时,报错+删token删资料跳转
       if (isTimeOut()) {
-        store.commit('user/removeStateToken')
-        store.commit('user/deleteUserInfo')
+        // store.commit('user/removeStateToken')
+        // store.commit('user/deleteUserInfo')
+        store.dispatch('user/logout')
         router.push('/login')
         return Promise.reject(new Error('页面已超时,请重新登陆'))
       }
@@ -47,8 +48,9 @@ service.interceptors.response.use(
       error.response.data &&
       error.response.data.code === 10002
     ) {
-      store.commit('user/removeStateToken')
-      store.commit('user/deleteUserInfo')
+      // store.commit('user/removeStateToken')
+      // store.commit('user/deleteUserInfo')
+      store.dispatch('user/logout')
       router.push('/login')
     } else {
       Message.error(error.message)

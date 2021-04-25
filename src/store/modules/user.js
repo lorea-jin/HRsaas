@@ -1,5 +1,6 @@
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getBasicUserInfo, getDetailedUserInfo } from '@/api/user'
+import { resetRouter } from '@/router/index'
 export default {
   namespaced: true,
   state: {
@@ -45,6 +46,16 @@ export default {
       // data和result合并后的结果传入 userInfo
       const obj = { ...data, ...result }
       context.commit('updataStateUserInfo', obj)
+      return data //return 出去调用这个方法的时候才能接收到roles下的用户权限值
+    },
+
+    //登出的函数
+    logout(context) {
+      context.commit('removeStateToken')
+      context.commit('deleteUserInfo')
+      resetRouter() //重置路由
+      // 清空vuex permission中的数据
+      context.commit('permission/setRoutes', [], { root: true })
     }
   }
 }

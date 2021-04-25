@@ -13,6 +13,7 @@ import '@/permission' // permission control
 import Component from '@/components' // 导入自定义的全局插件
 import * as filters from '@/filters/index' // 导入全部过滤器
 import Print from 'vue-print-nb'
+import checkPermission from '@/mixin/checkPermission'
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
@@ -32,6 +33,8 @@ Object.keys(directives).forEach(value => {
   // console.log(directives[value]) // 每个指令对象的 内容
   Vue.directive(value, directives[value])
 })
+
+Vue.mixin(checkPermission) //全局注册混入
 
 new Vue({
   el: '#app',

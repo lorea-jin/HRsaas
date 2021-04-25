@@ -10,7 +10,7 @@ export function getBasicUserInfo() {
   return request.post('/sys/profile')
 }
 
-// 获取用户详细信息-员工基本信息
+// 获取用户详细信息-获取员工基本信息
 export function getDetailedUserInfo(id) {
   return request.get(`/sys/user/${id}`)
 }

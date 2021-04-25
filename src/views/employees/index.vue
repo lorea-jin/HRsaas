@@ -1,32 +1,34 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <PageTools :show-before="showbefore">
-        <span slot="before">共{{ queryInfo.total }}条记录</span>
+      <el-card class="topcard">
+        <PageTools :show-before="showbefore">
+          <span slot="before">共{{ queryInfo.total }}条记录</span>
 
-        <el-button
-          slot="after"
-          size="small"
-          type="primary"
-          class="el-icon-upload2"
-          @click="$router.push('/import')"
-        >导入</el-button>
-        <el-button
-          slot="after"
-          size="small"
-          type="primary"
-          class="el-icon-download"
-          @click="exportBtn"
-        >导出</el-button>
+          <el-button
+            slot="after"
+            size="small"
+            type="primary"
+            class="el-icon-upload2"
+            @click="$router.push('/import')"
+          >导入</el-button>
+          <el-button
+            slot="after"
+            size="small"
+            type="primary"
+            class="el-icon-download"
+            @click="exportBtn"
+          >导出</el-button>
 
-        <el-button
-          slot="after"
-          size="small"
-          type="primary"
-          class="el-icon-plus"
-          @click="addUser"
-        >新增员工</el-button>
-      </PageTools>
+          <el-button
+            slot="after"
+            size="small"
+            type="primary"
+            class="el-icon-plus"
+            @click="addUser"
+          >新增员工</el-button>
+        </PageTools>
+      </el-card>
 
       <el-card>
         <el-table v-loading="loading" :data="empolyeeTableData" style="width: 100%" border>
@@ -73,7 +75,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="assignRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="delUser(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -91,11 +93,20 @@
     </div>
 
     <addEmplyee :show-dialog.sync="showDialog" @updateData="getEmployeeList()" />
+
+    <!-- 二维码的对话框 -->
     <el-dialog title="二维码" :visible.sync="qrDialogVisible" width="30%">
       <el-row type="flex" justify="center">
         <canvas ref="myCanvas"></canvas>
       </el-row>
     </el-dialog>
+
+    <!-- 分配角色的对话框 -->
+    <assignRole
+      ref="assingRoleRef"
+      :showAssignRoleDialog.sync="showAssignRoleDialog"
+      :userId="userId"
+    ></assignRole>
   </div>
 </template>
 
@@ -103,11 +114,12 @@
 import { getEmployeeList, delEmployee } from '@/api/employee'
 import employeeNum from '@/api/constant/employees'
 import addEmplyee from './components/add-employee'
+import assignRole from './components/assign-role'
 import { formatDate } from '@/filters/index'
 import QrCode from 'qrcode'
 
 export default {
-  components: { addEmplyee },
+  components: { addEmplyee, assignRole },
   data() {
     return {
       showbefore: true, // 控制公共组件左边是否显示
@@ -115,7 +127,11 @@ export default {
       queryInfo: { page: 1, size: 10, total: 0 },
       showDialog: false, // 控制弹层
       loading: false,
-      qrDialogVisible: false
+      qrDialogVisible: false,
+      showAssignRoleDialog: false,
+
+      // 当前操作的角色id
+      userId: ''
     }
   },
   created() {
@@ -229,6 +245,14 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
+    },
+
+    // 分配角色的函数
+    async assignRole(id) {
+      this.userId = id
+      // 获取子组件实例调用子组件方法
+      await this.$refs.assingRoleRef.getDetailedUserInfo(id)
+      this.showAssignRoleDialog = true
     }
   }
 }
@@ -237,5 +261,9 @@ export default {
 <style>
 .el-pagination {
   margin-top: 10px;
+}
+
+.topcard {
+  margin-bottom: 10px;
 }
 </style>
